@@ -1,0 +1,6 @@
+@Sparse_Smart_code_reviewer_HostAddress = http://localhost:5201
+
+GET {{Sparse_Smart_code_reviewer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

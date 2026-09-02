@@ -14,6 +14,33 @@ public class AuthController : ControllerBase
     {
         _authService = authService;
     }
+    [HttpPost("github")]
+    public async Task<IActionResult> GitHubLogin(
+     [FromBody] GitHubLoginDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Code))
+        {
+            return BadRequest(new
+            {
+                message = "GitHub authorization code is required."
+            });
+        }
+
+        try
+        {
+            var result = await _authService
+                .LoginWithGitHubAsync(dto.Code);
+
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new
+            {
+                message = ex.Message
+            });
+        }
+    }
     [HttpPost("google")]
     public async Task<IActionResult> GoogleLogin(
        [FromBody] GoogleLoginDto dto)
